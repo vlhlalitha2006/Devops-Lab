@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Registration</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 400px;
+            margin: 80px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Event Registration</h2>
+
+    <form id="registrationForm">
+
+        <input type="text"
+               id="name"
+               placeholder="Full Name"
+               required>
+
+        <input type="email"
+               id="email"
+               placeholder="Email"
+               required>
+
+        <input type="tel"
+               id="phone"
+               placeholder="Phone Number"
+               required>
+
+        <select id="event" required>
+            <option value="">Select Event</option>
+            <option value="Tech Fest">Tech Fest</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Workshop">Workshop</option>
+        </select>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <p id="message"></p>
+
+</div>
+
+<script>
+
+document.getElementById("registrationForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const registration = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        event: document.getElementById("event").value
+    };
+
+    const response = await fetch("/api/registrations", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(registration)
+    });
+
+    const message = await response.text();
+
+    document.getElementById("message").innerText = message;
+
+});
+
+</script>
+
+</body>
+</html>
